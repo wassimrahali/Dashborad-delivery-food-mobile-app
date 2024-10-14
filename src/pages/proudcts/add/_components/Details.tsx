@@ -43,7 +43,7 @@ export default function Details() {
                             className="flex-grow"
                         />
                         <Button
-                            className="w-fit border-zinc-600 opacity-80  border-2 flex items-center px-3 h-[40px]   justify-center"
+                            className="w-fit border-mainColor text-mainColor opacity-80  border-2 flex items-center px-3 h-[40px]   justify-center"
                             variant={"outline"}>
                             Add size
                         </Button>

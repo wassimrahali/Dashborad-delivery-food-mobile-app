@@ -74,7 +74,7 @@ export default function ImageUploader(props: { className?: string }) {
                     <>
                         <UploadCloud className="w-[160px] mx-auto mt-8 opacity-30 stroke-[1.5] h-[160px]" />
                         <p className="text-center font-semibold opacity-50 text-[18px]">
-                            Glissez et déposez l&apos;image ici
+                            Drag and drop your image here
                         </p>
                     </>
                 )}

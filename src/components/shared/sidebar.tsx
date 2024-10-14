@@ -3,6 +3,7 @@ import { ChevronDown, ChevronsRight } from "lucide-react";
 import { SIDEBAR_ITEMS } from "@/constants/sidebar-items";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 type PossibleItems = (typeof SIDEBAR_ITEMS)[number]["title"];
 export const Sidebar = (props: { selected?: PossibleItems }) => {
@@ -55,8 +56,8 @@ const Option = ({
             onClick={handleClick}
             className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
                 selected === title
-                    ? "bg-zinc-200 border text-zinc-700"
-                    : "text-zinc-500 hover:bg-zinc-100"
+                    ? "bg-mainColor/30  text-zinc-700"
+                    : "text-zinc-800 hover:bg-mainColor/10"
             }`}>
             <motion.div
                 layout
@@ -69,7 +70,9 @@ const Option = ({
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.125 }}
-                    className="text-xs font-medium">
+                    className={cn("text-sm font-medium", {
+                        "font-bold": selected === title,
+                    })}>
                     {title}
                 </motion.span>
             )}
@@ -122,7 +125,7 @@ const Logo = () => {
     return (
         <motion.div
             layout
-            className="grid size-10 shrink-0 place-content-center rounded-md bg-zinc-800">
+            className="grid size-10 shrink-0 place-content-center rounded-md bg-mainColor">
             <svg
                 width="24"
                 height="auto"

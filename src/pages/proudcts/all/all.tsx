@@ -8,7 +8,7 @@ export default function AllProducts() {
             <Sidebar selected="Products" />
             <section className="flex-grow justify-center flex items-center">
                 <Link to={"/products/add"}>
-                    <Button>add product</Button>
+                    <Button className="bg-zinc-700">add product</Button>
                 </Link>
             </section>
         </main>
