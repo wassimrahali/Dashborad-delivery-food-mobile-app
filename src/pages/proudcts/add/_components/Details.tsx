@@ -5,21 +5,37 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Info, Trash2, X } from "lucide-react";
 import { useState } from "react";
+import useStore from "../store";
 
 export default function Details() {
-    const [sizes, setSizes] = useState<string[]>([]);
+    const sizes = useStore((s) => s.sizes);
+    const setSizes = useStore((s) => s.setSizes);
     const [sizeInput, setSizeInput] = useState("");
+
+    const description = useStore((s) => s.description);
+    const setDescription = useStore((s) => s.setDescription);
+
+    const duration = useStore((s) => s.duration);
+    const setDuration = useStore((s) => s.setDuration);
+
     return (
-        <section className={cn("p-5 w-full h-[350px] border-2  rounded-xl")}>
+        <section className={cn("p-5 w-full  border-2  rounded-xl")}>
             <div className="flex items-center text-black pb-3 font-semibold text-[20px] ">
                 Other details <Info className="ml-auto opacity-40" />
             </div>
             <div>
                 <Label>Preparation duration (in minutes)</Label>
-                <Input type="number" placeholder="Duration" />
+                <Input
+                    onChange={(e) => setDuration(e.target.value)}
+                    value={duration}
+                    type="number"
+                    placeholder="Duration in minuts"
+                />
                 <div className="mt-3">
                     <Label>Description</Label>
                     <Textarea
+                        onChange={(e) => setDescription(e.target.value)}
+                        value={description}
                         placeholder="Description"
                         className={cn("w-full p-2 border rounded-md h-fit")}
                     />

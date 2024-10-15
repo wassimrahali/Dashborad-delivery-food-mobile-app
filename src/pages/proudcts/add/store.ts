@@ -2,109 +2,53 @@ import { create } from "zustand";
 
 type State = {
     name: string;
+    price: number;
+    categoryId: number | null;
+    duration: string;
     description: string;
-    reference: string;
-    price: string;
-    quantity: number;
-    mainImage: File | null;
-    otherImages: File[];
-    isSoldOut: boolean;
-    isPublished: boolean;
-    categoryIds: number[];
-    brand: string;
-    colors: string[];
-    details: { index: number; name: string; value: string }[];
-    isTop: boolean;
-    isTrending: boolean;
-    promotion: {
-        name?: string;
-        startDate?: Date;
-        endDate?: Date;
-        discountedPrice?: string;
-    } | null;
+    sizes: string[];
+    mainImage: string | null;
+    otherImages: string[];
+    rating: number;
 };
 
 type Actions = {
+    setRating: (rating: number) => void;
     setName: (name: string) => void;
+    setPrice: (price: number) => void;
+    setCategoryId: (categoryId: number | null) => void;
+    setDuration: (duration: string) => void;
     setDescription: (description: string) => void;
-    setReference: (reference: string) => void;
-    setPrice: (price: string) => void;
-    setQuantity: (quantity: number) => void;
-    setMainImage: (mainImage: File) => void;
-    addOtherImage: (image: File) => void;
-    removeOtherImage: (index: number) => void;
-    setIsSoldOut: (isSoldOut: boolean) => void;
-    setIsPublished: (isPublished: boolean) => void;
-    setCategoryIds: (categoryIds: number[]) => void;
-    setBrand: (brand: string) => void;
-    setColors: (colors: string[]) => void;
-    setDetails: (details: State["details"]) => void;
-    reset: () => void;
-    setIsTop: (isTop: boolean) => void;
-    setIsTrending: (isTop: boolean) => void;
-    setPromotion: (promotion: State["promotion"]) => void;
+    setSizes: (sizes: string[]) => void;
+    setMainImage: (mainImage: string | null) => void;
+    setOtherImages: (otherImages: string[]) => void;
 };
 
 type Store = State & Actions;
 
 const initialState: State = {
-    name: "",
+    rating: 4.9,
+    categoryId: null,
     description: "",
-    reference: "",
-    price: "",
-    quantity: 1,
+    duration: "",
     mainImage: null,
+    name: "",
     otherImages: [],
-    isSoldOut: false,
-    isPublished: true,
-    categoryIds: [],
-    brand: "",
-    isTop: false,
-    isTrending: false,
-    colors: [],
-    details: [
-        {
-            index: 0,
-            name: "",
-            value: "",
-        },
-        {
-            index: 1,
-            name: "",
-            value: "",
-        },
-    ],
-    promotion: {
-        name: "",
-        startDate: new Date(),
-        endDate: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000),
-    },
+    price: 0,
+    sizes: [],
 };
 
 const useStore = create<Store>((set) => ({
     ...initialState,
+    setRating: (rating) => set({ rating }),
     setName: (name) => set({ name }),
-    setDescription: (description) => set({ description }),
-    setReference: (reference) => set({ reference }),
     setPrice: (price) => set({ price }),
-    setQuantity: (quantity) => set({ quantity }),
+    setCategoryId: (categoryId) => set({ categoryId }),
+    setDuration: (duration) => set({ duration }),
+    setDescription: (description) => set({ description }),
+    setSizes: (sizes) => set({ sizes }),
     setMainImage: (mainImage) => set({ mainImage }),
-    addOtherImage: (image) =>
-        set((state) => ({ otherImages: [...state.otherImages, image] })),
-    removeOtherImage: (index) =>
-        set((state) => ({
-            otherImages: state.otherImages.filter((_, i) => i !== index),
-        })),
-    setIsSoldOut: (isSoldOut) => set({ isSoldOut }),
-    setCategoryIds: (categoryIds) => set({ categoryIds }),
-    setBrand: (brand) => set({ brand }),
-    setIsPublished: (isPublished) => set({ isPublished }),
-    reset: () => set(initialState),
-    setColors: (colors) => set({ colors }),
-    setDetails: (details) => set({ details }),
-    setIsTop: (isTop) => set({ isTop }),
-    setIsTrending: (isTrending) => set({ isTrending }),
-    setPromotion: (promotion) => set({ promotion }),
+    setOtherImages: (otherImages) => set({ otherImages }),
 }));
 
 export default useStore;
