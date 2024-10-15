@@ -2,14 +2,19 @@ import { cn } from "@/lib/utils";
 import { UploadCloud } from "lucide-react";
 import { useState } from "react";
 
-export default function ImageUploader(props: { className?: string }) {
-    const [file, setFile] = useState<File>();
+type Props = {
+    file: File | undefined;
+    setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
+    className?: string;
+};
+export default function ImageUploader({ file, setFile, className }: Props) {
     const [previewUrl, setPreviewUrl] = useState("");
+
     return (
         <div
             className={cn(
                 "shadow-[0px_0px_20px] h-[450px] flex flex-col rounded-xl shadow-neutral-100",
-                props.className
+                className
             )}>
             <div className="hover:bg-neutral-100 transition-colors px-5 pt-5 rounded-t-xl flex-grow h-[310px] relative border-2">
                 {previewUrl && (
@@ -20,7 +25,13 @@ export default function ImageUploader(props: { className?: string }) {
                     />
                 )}
                 <input
-                    onChange={() => {}}
+                    onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                            setFile(file);
+                            setPreviewUrl(URL.createObjectURL(file));
+                        }
+                    }}
                     accept="image/*"
                     type="file"
                     className="w-full h-full absolute opacity-0 hover:cursor-pointer z-40 border-2 left-0 top-0"

@@ -2,7 +2,7 @@ import { Sidebar } from "@/components/shared/sidebar";
 import TopBar from "@/components/shared/topBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, PlusSquare, Search } from "lucide-react";
+import { PlusSquare, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function AllCategories() {
