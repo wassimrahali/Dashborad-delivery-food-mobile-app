@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { memo, useState } from "react";
 import { ChevronDown, ChevronsRight } from "lucide-react";
 import { SIDEBAR_ITEMS } from "@/constants/sidebar-items";
 import { motion } from "framer-motion";
@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 type PossibleItems = (typeof SIDEBAR_ITEMS)[number]["title"];
+
 export const Sidebar = (props: { selected?: PossibleItems }) => {
     const [open, setOpen] = useState(true);
     const [selected, setSelected] = useState(props.selected ?? "Dashboard");
+
     return (
         <motion.nav
             layout
@@ -21,6 +23,7 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
             <div className="space-y-1 mt-8">
                 {SIDEBAR_ITEMS.map((item) => (
                     <Option
+                        key={item.title}
                         link={item.link}
                         Icon={item.Icon}
                         title={item.title}
@@ -36,65 +39,68 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
     );
 };
 
-const Option = ({
-    Icon,
-    title,
-    selected,
-    setSelected,
-    open,
-    notifs = undefined,
-    link,
-}: any) => {
-    const navigate = useNavigate();
-    const handleClick = () => {
-        setSelected(title);
-        navigate(link);
-    };
-    return (
-        <motion.button
-            layout
-            onClick={handleClick}
-            className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
-                selected === title
-                    ? "bg-mainColor/30  text-zinc-700"
-                    : "text-zinc-800 hover:bg-mainColor/10"
-            }`}>
-            <motion.div
+const Option = memo(
+    ({
+        Icon,
+        title,
+        selected,
+        setSelected,
+        open,
+        notifs = undefined,
+        link,
+    }: any) => {
+        const navigate = useNavigate();
+        const handleClick = () => {
+            setSelected(title);
+            navigate(link);
+        };
+
+        return (
+            <motion.button
                 layout
-                className="grid h-full w-10 place-content-center text-lg">
-                <Icon />
-            </motion.div>
-            {open && (
-                <motion.span
+                onClick={handleClick}
+                className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
+                    selected === title
+                        ? "bg-mainColor/30  text-zinc-700"
+                        : "text-zinc-800 hover:bg-mainColor/10"
+                }`}>
+                <motion.div
                     layout
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.125 }}
-                    className={cn("text-sm font-medium", {
-                        "font-bold": selected === title,
-                    })}>
-                    {title}
-                </motion.span>
-            )}
+                    className="grid h-full w-10 place-content-center text-lg">
+                    <Icon />
+                </motion.div>
+                {open && (
+                    <motion.span
+                        layout
+                        initial={{ opacity: 0, y: 0 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.125 }}
+                        className={cn("text-sm font-medium", {
+                            "font-bold": selected === title,
+                        })}>
+                        {title}
+                    </motion.span>
+                )}
 
-            {notifs && open && (
-                <motion.span
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{
-                        opacity: 1,
-                        scale: 1,
-                    }}
-                    style={{ y: "-50%" }}
-                    transition={{ delay: 0.5 }}
-                    className="absolute right-2 top-1/2 size-4 rounded bg-black text-xs text-white">
-                    {notifs}
-                </motion.span>
-            )}
-        </motion.button>
-    );
-};
+                {notifs && open && (
+                    <motion.span
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{
+                            opacity: 1,
+                            scale: 1,
+                        }}
+                        style={{ y: "-50%" }}
+                        transition={{ delay: 0.5 }}
+                        className="absolute right-2 top-1/2 size-4 rounded bg-black text-xs text-white">
+                        {notifs}
+                    </motion.span>
+                )}
+            </motion.button>
+        );
+    }
+);
 
-const TitleSection = ({ open }: any) => {
+const TitleSection = ({ open }: { open: boolean }) => {
     return (
         <div className="mb-3 border-b border-zinc-300/80 pb-3">
             <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-zinc-100">
@@ -103,7 +109,7 @@ const TitleSection = ({ open }: any) => {
                     {open && (
                         <motion.div
                             layout
-                            initial={{ opacity: 0, y: 12 }}
+                            initial={{ opacity: 0, y: 0 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.125 }}>
                             <span className="block text-xs font-semibold">
@@ -144,11 +150,17 @@ const Logo = () => {
     );
 };
 
-const ToggleClose = ({ open, setOpen }: any) => {
+const ToggleClose = ({
+    open,
+    setOpen,
+}: {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     return (
         <motion.button
             layout
-            onClick={() => setOpen((pv: any) => !pv)}
+            onClick={() => setOpen((pv) => !pv)}
             className="absolute bottom-0 left-0 right-0 border-t border-zinc-300/80 transition-colors hover:bg-zinc-100">
             <div className="flex items-center p-2">
                 <motion.div
@@ -156,16 +168,19 @@ const ToggleClose = ({ open, setOpen }: any) => {
                     className="grid size-10 place-content-center text-lg">
                     <ChevronsRight
                         className={`transition-transform opacity-70 ${
-                            open && "rotate-180"
+                            open ? "rotate-180" : ""
                         }`}
                     />
                 </motion.div>
                 {open && (
                     <motion.span
                         layout
-                        initial={{ opacity: 0, y: 12 }}
+                        initial={{ opacity: 0, y: 0 }}
                         animate={{ opacity: 0.7, y: 0 }}
                         transition={{ delay: 0.125 }}
+                        viewport={{
+                            once: true,
+                        }}
                         className="text-xs font-medium">
                         Close
                     </motion.span>
