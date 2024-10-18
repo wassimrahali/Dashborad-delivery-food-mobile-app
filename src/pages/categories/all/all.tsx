@@ -2,10 +2,23 @@ import { Sidebar } from "@/components/shared/sidebar";
 import TopBar from "@/components/shared/topBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { apiInstance } from "@/lib/axios";
 import { PlusSquare, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Table from "./_components/table";
 
 export default function AllCategories() {
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        fetchCategories()
+            .then((data) => setCategories(data))
+            .catch((err) => {
+                toast.error("Il ya des erreurs...");
+            });
+    }, []);
     return (
         <main className="flex">
             <Sidebar selected="Categories" />
@@ -28,7 +41,21 @@ export default function AllCategories() {
                         </Button>
                     </Link>
                 </div>
+                <Table categories={categories} />
             </section>
+            <Toaster />
         </main>
     );
 }
+
+async function fetchCategories() {
+    const { data } = await apiInstance.get("/categories");
+    return data as Category[];
+}
+export type Category = {
+    id: number;
+    name: string;
+    image: string;
+    createdAt: string;
+    products: any[];
+};
