@@ -33,10 +33,12 @@ export default function CategoryDetails() {
                             <h1 className="text-2xl font-bold">
                                 {category.name}
                             </h1>
-                            <Button className="bg-blue-500 font-medium text-white px-4 py-2  text-center rounded-md hover:bg-blue-600 flex items-center">
-                                <Edit className="mr-2" size={18} />
-                                Edit Category
-                            </Button>
+                            <Link to={`/categories/update/${id}`}>
+                                <Button className="bg-blue-500 font-medium text-white px-4 py-2  text-center rounded-md hover:bg-blue-600 flex items-center">
+                                    <Edit className="mr-2" size={18} />
+                                    Edit Category
+                                </Button>
+                            </Link>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
