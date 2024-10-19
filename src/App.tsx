@@ -8,6 +8,7 @@ import AllCategories from "./pages/categories/all/all";
 import AddCategory from "./pages/categories/add/add";
 import ProductDetails from "./pages/proudcts/deails/productDetails";
 import CategoryDetails from "./pages/categories/details/CategoryDetails";
+import UpdateProduct from "./pages/proudcts/update/UpdateProduct";
 
 function App() {
     return (
@@ -20,6 +21,10 @@ function App() {
                     <Route path="/products/add" element={<AddProduct />} />
                     <Route path="/products/" element={<AllProducts />} />
                     <Route path="/products/:id" element={<ProductDetails />} />
+                    <Route
+                        path="/products/update/:id"
+                        element={<UpdateProduct />}
+                    />
                     <Route path="/categories/add" element={<AddCategory />} />
                     <Route path="/categories/" element={<AllCategories />} />
                     <Route
