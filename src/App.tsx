@@ -11,23 +11,25 @@ import CategoryDetails from "./pages/categories/details/CategoryDetails";
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/products/add" element={<AddProduct />} />
-            <Route path="/products/" element={<AllProducts />} />
-            <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/categories/add" element={<AddCategory />} />
-            <Route path="/categories/" element={<AllCategories />} />
-            <Route path="/categories/:id" element={<CategoryDetails />} />
-            <Route
-                path="*"
-                element={
-                    <main>
-                        <Sidebar />
-                    </main>
-                }></Route>
-        </Routes>
+        <div className="flex">
+            <Sidebar />
+            <div className="w-full">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/products/add" element={<AddProduct />} />
+                    <Route path="/products/" element={<AllProducts />} />
+                    <Route path="/products/:id" element={<ProductDetails />} />
+                    <Route path="/categories/add" element={<AddCategory />} />
+                    <Route path="/categories/" element={<AllCategories />} />
+                    <Route
+                        path="/categories/:id"
+                        element={<CategoryDetails />}
+                    />
+                    <Route path="*" element={<main></main>}></Route>
+                </Routes>
+            </div>
+        </div>
     );
 }
 

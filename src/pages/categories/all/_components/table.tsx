@@ -1,6 +1,7 @@
 import { Eye, PenBox, Trash2 } from "lucide-react";
 import { Category } from "../all";
 import { Link } from "react-router-dom";
+import DeleteCategoryBtn from "./DeleteBtn";
 
 type Props = {
     categories: Category[];
@@ -55,9 +56,7 @@ export default function Table({ categories }: Props) {
                                             className="bg-blue-500   active:scale-95 transition-all hover:bg-blue-600 p-2 text-white rounded-md">
                                             <Eye className="w-5 h-5" />
                                         </Link>
-                                        <button className="bg-red-500 ml-2 active:scale-95 transition-all hover:bg-red-600 p-2 text-white rounded-md">
-                                            <Trash2 className="w-5 h-5" />
-                                        </button>
+                                        <DeleteCategoryBtn id={category.id} />
                                         <button className="bg-stone-700 ml-2 active:scale-95 transition-all hover:bg-stone-800 p-2 text-white rounded-md">
                                             <PenBox className="w-5 h-5" />
                                         </button>

@@ -1,13 +1,12 @@
 import SaveAndCancelBtns from "@/components/shared/saveAndCancelBtns";
-import { Sidebar } from "@/components/shared/sidebar";
 import TopBar from "@/components/shared/topBar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { apiInstance } from "@/lib/axios";
+import { imageUpload } from "@/lib/image-upload";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import ImageUploader from "./_components/ImageUploader";
-import { apiInstance } from "@/lib/axios";
-import { imageUpload } from "@/lib/image-upload";
 
 export default function AddCategory() {
     const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +44,6 @@ export default function AddCategory() {
 
     return (
         <main className="flex">
-            <Sidebar selected="Categories" />
             <section className="w-full">
                 <TopBar text="Add new category">
                     <SaveAndCancelBtns

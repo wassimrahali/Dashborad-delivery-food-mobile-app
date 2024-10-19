@@ -1,4 +1,3 @@
-import { Sidebar } from "@/components/shared/sidebar";
 import TopBar from "@/components/shared/topBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,8 +7,10 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Table from "./_components/table";
+import LoadingPage from "@/components/shared/LoadingPage";
 
 export default function AllProducts() {
+    const [isLoading, setIsLoading] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
@@ -18,11 +19,15 @@ export default function AllProducts() {
             .catch((err) => {
                 console.error(err);
                 toast.error("Il ya des erreurs...");
-            });
+            })
+            .finally(() => setIsLoading(false));
     }, []);
+
+    if (isLoading) {
+        return <LoadingPage />;
+    }
     return (
         <main className="flex">
-            <Sidebar selected="Products" />
             <section className="w-full">
                 <TopBar text="All products"></TopBar>
                 <div className="h-[80px] px-10 flex items-center  border">
@@ -35,7 +40,7 @@ export default function AllProducts() {
                             placeholder="Search"
                         />
                     </div>
-                    <Link to={"/categories/add"} className="ml-auto">
+                    <Link to={"/products/add"} className="ml-auto">
                         <Button className="ml-auto opacity-90 bg-zinc-800 font-medium text-sm h-[40px]">
                             <PlusSquare className="stroke-[2] mr-2  w-5" /> Add
                             Product

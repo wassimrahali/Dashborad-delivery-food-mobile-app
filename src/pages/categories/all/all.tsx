@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/shared/sidebar";
+import LoadingPage from "@/components/shared/LoadingPage";
 import TopBar from "@/components/shared/topBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,18 +10,22 @@ import { Link } from "react-router-dom";
 import Table from "./_components/table";
 
 export default function AllCategories() {
+    const [isLoading, setIsLoading] = useState(true);
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         fetchCategories()
             .then((data) => setCategories(data))
-            .catch((err) => {
+            .catch(() => {
                 toast.error("Il ya des erreurs...");
-            });
+            })
+            .finally(() => setIsLoading(false));
     }, []);
+    if (isLoading) {
+        return <LoadingPage />;
+    }
     return (
         <main className="flex">
-            <Sidebar selected="Categories" />
             <section className="w-full">
                 <TopBar text="All categories"></TopBar>
                 <div className="h-[80px] px-10 flex items-center  border">
