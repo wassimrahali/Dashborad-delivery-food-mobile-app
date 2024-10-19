@@ -64,9 +64,11 @@ export default function ProductTable({ products }: Props) {
                                         </Link>
                                         <DeleteProductBtn id={product.id} />
 
-                                        <button className="bg-stone-700 ml-2 active:scale-95 transition-all hover:bg-stone-800 p-2 text-white rounded-md">
+                                        <Link
+                                            to={`/products/update/${product.id}`}
+                                            className="bg-stone-700 ml-2 active:scale-95 transition-all hover:bg-stone-800 p-2 text-white rounded-md">
                                             <PenBox className="w-5 h-5" />
-                                        </button>
+                                        </Link>
                                     </div>
                                 </td>
                             </tr>

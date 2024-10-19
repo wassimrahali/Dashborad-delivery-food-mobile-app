@@ -22,7 +22,6 @@ type Actions = {
     setSizes: (sizes: string[]) => void;
     setMainImage: (mainImage: string | null) => void;
     setOtherImages: (otherImages: string[]) => void;
-    reset: () => void;
 };
 
 type Store = State & Actions;
@@ -41,7 +40,6 @@ const initialState: State = {
 
 const useStore = create<Store>((set) => ({
     ...initialState,
-    reset: () => set(initialState),
     setRating: (rating) => set({ rating }),
     setName: (name) => set({ name }),
     setPrice: (price) => set({ price }),

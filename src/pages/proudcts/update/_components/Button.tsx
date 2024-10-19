@@ -3,14 +3,31 @@ import useStore from "../store";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { apiInstance } from "@/lib/axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { wait } from "@/lib/utils";
+import { useParams } from "react-router-dom";
 
-export default function Buttons() {
+type Props = {
+    stopPageLoading: () => void;
+};
+export default function Buttons(props: Props) {
     const data = useStore();
     const [isLoading, setIsLoading] = useState(false);
+
+    const productId = useParams().id;
+    useEffect(() => {
+        apiInstance
+            .get(`/products/${productId}`)
+            .then((res) => {
+                const product = res.data as ApiProduct;
+                console.log(product);
+            })
+            .catch(() => toast.error("Product was not found"))
+            .finally(() => props.stopPageLoading());
+    }, []);
+
     const handleSave = async () => {
-        const payload = {
+        const payoad = {
             name: data.name,
             mainImage: data.mainImage,
             price: data.price,
@@ -21,8 +38,8 @@ export default function Buttons() {
             sizes: data.sizes,
             categoryId: data.categoryId,
         };
-        console.log("payload is ", payload);
-        const { error, success } = ProductSchema.safeParse(payload);
+
+        const { error, success } = ProductSchema.safeParse(payoad);
         error?.errors.forEach((err) =>
             toast.error(`${err.path.join(" / ")} ${err.message}`)
         );
@@ -34,11 +51,10 @@ export default function Buttons() {
         toast.loading("Creating your product");
         setIsLoading(true);
         apiInstance
-            .post("/products", payload)
+            .post("/products", payoad)
             .then(() => {
                 toast.dismiss();
                 toast.success("Product created successfully");
-                data.reset();
                 wait(100).then(() => window.location.reload());
             })
             .catch(() => {
@@ -68,3 +84,22 @@ const ProductSchema = z.object({
     sizes: z.array(z.string()).default([]),
     categoryId: z.number().int().positive(),
 });
+
+type ApiProduct = {
+    id: number;
+    name: string;
+    mainImage: string;
+    price: string;
+    otherImages: string[];
+    description: string;
+    preparationDuration: string;
+    rating: string;
+    createdAt: string;
+    sizes: [];
+    category: {
+        id: number;
+        name: string;
+        image: string;
+        createdAt: string;
+    };
+};
