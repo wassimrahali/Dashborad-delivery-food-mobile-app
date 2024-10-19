@@ -2,12 +2,28 @@ import React, { memo, useState } from "react";
 import { ChevronDown, ChevronsRight } from "lucide-react";
 import { SIDEBAR_ITEMS } from "@/constants/sidebar-items";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 type PossibleItems = (typeof SIDEBAR_ITEMS)[number]["title"];
 
 export const Sidebar = (props: { selected?: PossibleItems }) => {
+    const pathname = useLocation().pathname;
+    const routesWithSidebar = [
+        "/products",
+        "/",
+        "/categories",
+        "/orders",
+        "/drivers",
+        "/settings",
+    ];
+    console.log();
+    const isSidebarVisible = routesWithSidebar.some((item) =>
+        pathname.startsWith(item)
+    );
+    if (!isSidebarVisible) {
+        return null;
+    }
     const [open, setOpen] = useState(true);
     const [selected, setSelected] = useState(props.selected ?? "Dashboard");
 

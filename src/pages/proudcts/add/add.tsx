@@ -1,15 +1,12 @@
-import { Sidebar } from "@/components/shared/sidebar";
-import Details from "./_components/Details";
-import GeneralInfo from "./_components/GeneralInfo";
-import ImageUploader from "./_components/ImageUploader";
 import TopBar from "@/components/shared/topBar";
 import { Toaster } from "react-hot-toast";
 import Buttons from "./_components/Button";
-
+import Details from "./_components/Details";
+import GeneralInfo from "./_components/GeneralInfo";
+import ImageUploader from "./_components/ImageUploader";
 export default function AddProduct() {
     return (
         <main className="flex ">
-            <Sidebar selected="Products" />
             <section className="w-full pb-10">
                 <TopBar text="Add new product">
                     <Buttons />

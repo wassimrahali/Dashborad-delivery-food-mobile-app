@@ -22,21 +22,21 @@ type Props = {
     id: number;
 };
 
-export default function DeleteProductBtn({ id }: Props) {
+export default function DeleteCategoryBtn({ id }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const handleConfirm = async () => {
         setIsLoading(true);
         apiInstance
-            .delete(`/products/${id}`)
+            .delete(`/categories/${id}`)
             .then(() => {
-                toast.success("Product is deleted");
+                toast.success("Category is deleted");
                 setIsOpen(false);
                 setIsLoading(false);
                 navigate(0);
             })
-            .catch(() => toast.error("Product is not deleted"));
+            .catch(() => toast.error("Category was not deleted"));
     };
 
     return (
@@ -53,7 +53,7 @@ export default function DeleteProductBtn({ id }: Props) {
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently
-                        delete this product.
+                        delete this category.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

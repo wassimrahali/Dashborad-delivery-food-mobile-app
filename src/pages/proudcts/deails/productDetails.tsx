@@ -1,5 +1,4 @@
 import LoadingPage from "@/components/shared/LoadingPage";
-import { Sidebar } from "@/components/shared/sidebar";
 import TopBar from "@/components/shared/topBar";
 import { Button } from "@/components/ui/button";
 import { apiInstance } from "@/lib/axios";
@@ -26,7 +25,6 @@ export default function ProductDetails() {
     }
     return (
         <main className="flex">
-            <Sidebar selected="Products" />
             <div className="w-full ">
                 <TopBar text="Product details" />
                 <div className="p-10">
