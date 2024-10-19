@@ -20,14 +20,24 @@ export default function Buttons(props: Props) {
             .get(`/products/${productId}`)
             .then((res) => {
                 const product = res.data as ApiProduct;
-                console.log(product);
+                data.setName(product.name);
+                data.setCategoryId(product.category.id);
+                data.setDescription(product.description);
+                data.setDuration(
+                    product.preparationDuration.split("min").join("")
+                );
+                data.setMainImage(product.mainImage);
+                data.setOtherImages(product.otherImages);
+                data.setPrice(Number(product.price));
+                data.setRating(Number(product.rating));
+                data.setSizes(product.sizes);
             })
             .catch(() => toast.error("Product was not found"))
             .finally(() => props.stopPageLoading());
     }, []);
 
     const handleSave = async () => {
-        const payoad = {
+        const payload = {
             name: data.name,
             mainImage: data.mainImage,
             price: data.price,
@@ -37,9 +47,10 @@ export default function Buttons(props: Props) {
             rating: data.rating,
             sizes: data.sizes,
             categoryId: data.categoryId,
+            id: Number(productId),
         };
 
-        const { error, success } = ProductSchema.safeParse(payoad);
+        const { error, success } = ProductSchema.safeParse(payload);
         error?.errors.forEach((err) =>
             toast.error(`${err.path.join(" / ")} ${err.message}`)
         );
@@ -51,10 +62,10 @@ export default function Buttons(props: Props) {
         toast.loading("Creating your product");
         setIsLoading(true);
         apiInstance
-            .post("/products", payoad)
+            .put(`/products/update/${productId}`, payload)
             .then(() => {
                 toast.dismiss();
-                toast.success("Product created successfully");
+                toast.success("Product updated successfully");
                 wait(100).then(() => window.location.reload());
             })
             .catch(() => {
@@ -83,6 +94,7 @@ const ProductSchema = z.object({
     rating: z.number().min(0).max(5).default(5),
     sizes: z.array(z.string()).default([]),
     categoryId: z.number().int().positive(),
+    id: z.number(),
 });
 
 type ApiProduct = {

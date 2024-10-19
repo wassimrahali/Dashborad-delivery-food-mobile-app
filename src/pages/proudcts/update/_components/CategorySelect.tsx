@@ -4,7 +4,6 @@ import {
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue,
 } from "@/components/ui/select";
 import { apiInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
@@ -22,12 +21,20 @@ export default function CategorySelect() {
             });
     }, []);
     const setSelectedCategory = useStore((s) => s.setCategoryId);
+    const selectedCategoryId = useStore((s) => s.categoryId);
+    const selectedCategory = allCategories.find(
+        (c) => c.id == selectedCategoryId
+    );
+
+    console.log("selected category", selectedCategory);
     return (
         <div className=" mt-3">
             <Label>Category</Label>
             <Select onValueChange={(v) => setSelectedCategory(Number(v))}>
-                <SelectTrigger className="h-[40px]">
-                    <SelectValue placeholder="Category"></SelectValue>
+                <SelectTrigger className="h-[40px] opacity-100 text-black">
+                    <span className="text-black font-medium">
+                        {selectedCategory?.name}
+                    </span>
                 </SelectTrigger>
                 <SelectContent className="max-h-[400px]">
                     {allCategories.map((c) => (
