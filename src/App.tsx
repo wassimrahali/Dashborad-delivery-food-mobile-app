@@ -9,6 +9,7 @@ import AddCategory from "./pages/categories/add/add";
 import ProductDetails from "./pages/proudcts/deails/productDetails";
 import CategoryDetails from "./pages/categories/details/CategoryDetails";
 import UpdateProduct from "./pages/proudcts/update/UpdateProduct";
+import UpdateCategory from "./pages/categories/update/update";
 
 function App() {
     return (
@@ -30,6 +31,10 @@ function App() {
                     <Route
                         path="/categories/:id"
                         element={<CategoryDetails />}
+                    />
+                    <Route
+                        path="/categories/update/:id"
+                        element={<UpdateCategory />}
                     />
                     <Route path="*" element={<main></main>}></Route>
                 </Routes>

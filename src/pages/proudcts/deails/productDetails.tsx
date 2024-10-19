@@ -5,7 +5,7 @@ import { apiInstance } from "@/lib/axios";
 import { Calendar, Clock, DollarSign, Edit, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ProductDetails() {
     const params = useParams();
@@ -33,10 +33,12 @@ export default function ProductDetails() {
                             <h1 className="text-2xl font-bold">
                                 {product?.name}
                             </h1>
-                            <Button className="bg-blue-500 font-medium  text-white px-4 py-2 rounded-md hover:bg-blue-600    flex items-center">
-                                <Edit className="mr-2" size={18} />
-                                Edit Product
-                            </Button>
+                            <Link to={`/products/update/${id}`}>
+                                <Button className="bg-blue-500 font-medium  text-white px-4 py-2 rounded-md hover:bg-blue-600    flex items-center">
+                                    <Edit className="mr-2" size={18} />
+                                    Edit Product
+                                </Button>
+                            </Link>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
