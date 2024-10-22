@@ -11,7 +11,7 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
     const pathname = useLocation().pathname;
     const routesWithSidebar = [
         "/products",
-        "/",
+        "/dashbord",
         "/categories",
         "/orders",
         "/drivers",

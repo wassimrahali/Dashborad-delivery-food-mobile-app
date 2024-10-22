@@ -21,7 +21,7 @@ export const SIDEBAR_ITEMS = [
     },
     {
         Icon: ShoppingCart,
-        link: "/products",
+        link: "/dashbord/products",
         title: "Products",
     },
     {
