@@ -10,36 +10,36 @@ import ProductDetails from "./pages/proudcts/deails/productDetails";
 import CategoryDetails from "./pages/categories/details/CategoryDetails";
 import UpdateProduct from "./pages/proudcts/update/UpdateProduct";
 import UpdateCategory from "./pages/categories/update/update";
+import { AuthProvider } from "./constants/AuthContext";
+import PrivateRoute from "./pages/login/PrivateRoute";
 
 function App() {
     return (
-        <div className="flex">
-            <Sidebar />
-            <div className="w-full">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/products/add" element={<AddProduct />} />
-                    <Route path="/products/" element={<AllProducts />} />
-                    <Route path="/products/:id" element={<ProductDetails />} />
-                    <Route
-                        path="/products/update/:id"
-                        element={<UpdateProduct />}
-                    />
-                    <Route path="/categories/add" element={<AddCategory />} />
-                    <Route path="/categories/" element={<AllCategories />} />
-                    <Route
-                        path="/categories/:id"
-                        element={<CategoryDetails />}
-                    />
-                    <Route
-                        path="/categories/update/:id"
-                        element={<UpdateCategory />}
-                    />
-                    <Route path="*" element={<main></main>}></Route>
-                </Routes>
+        <AuthProvider>
+            <div className="flex">
+                <Sidebar />
+                <div className="w-full">
+                    <Routes>
+                        {/* Route Login, accessible uniquement pour les utilisateurs non connectés */}
+                        <Route path="/" element={<Login />} />
+
+                        {/* Routes protégées par PrivateRoute */}
+                        <Route path="/dashbord" element={<PrivateRoute><Home /></PrivateRoute>} />
+                        <Route path="/products/add" element={<PrivateRoute><AddProduct /></PrivateRoute>} />
+                        <Route path="/dashbord/products/" element={<PrivateRoute><AllProducts /></PrivateRoute>} />
+                        <Route path="/products/:id" element={<PrivateRoute><ProductDetails /></PrivateRoute>} />
+                        <Route path="/products/update/:id" element={<PrivateRoute><UpdateProduct /></PrivateRoute>} />
+                        <Route path="/categories/add" element={<PrivateRoute><AddCategory /></PrivateRoute>} />
+                        <Route path="/categories/" element={<PrivateRoute><AllCategories /></PrivateRoute>} />
+                        <Route path="/categories/:id" element={<PrivateRoute><CategoryDetails /></PrivateRoute>} />
+                        <Route path="/categories/update/:id" element={<PrivateRoute><UpdateCategory /></PrivateRoute>} />
+                        
+                        {/* Route catch-all pour les routes non trouvées */}
+                        <Route path="*" element={<main>404 Page not found</main>} />
+                    </Routes>
+                </div>
             </div>
-        </div>
+        </AuthProvider>
     );
 }
 
