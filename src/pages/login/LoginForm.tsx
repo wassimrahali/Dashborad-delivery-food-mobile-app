@@ -109,7 +109,6 @@ export function LoginForm() {
         <div className="flex flex-col space-y-4">
           <OAuthButton provider="GitHub" onClick={() => handleOAuthLogin("GitHub")} />
           <OAuthButton provider="Google" onClick={() => handleOAuthLogin("Google")} />
-          <OAuthButton provider="OnlyFans" onClick={() => handleOAuthLogin("OnlyFans")} />
         </div>
       </form>
     </div>
