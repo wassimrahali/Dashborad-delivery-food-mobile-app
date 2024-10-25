@@ -1,3 +1,3 @@
 export default function Home() {
-    return <main className="flex"> </main>;
+    return <main className="flex">dashboard</main>;
 }
