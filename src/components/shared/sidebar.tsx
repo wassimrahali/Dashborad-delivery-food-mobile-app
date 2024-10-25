@@ -11,13 +11,12 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
     const pathname = useLocation().pathname;
     const routesWithSidebar = [
         "/products",
-        "/dashbord",
+        "/",
         "/categories",
         "/orders",
         "/drivers",
         "/settings",
     ];
-    console.log();
     const isSidebarVisible = routesWithSidebar.some((item) =>
         pathname.startsWith(item)
     );

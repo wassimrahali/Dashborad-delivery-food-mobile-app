@@ -47,7 +47,7 @@ export default function AllProducts() {
                         </Button>
                     </Link>
                 </div>
-                <Table products={products} />
+                <Table products={products ?? []} />
             </section>
             <Toaster />
         </main>
@@ -56,6 +56,7 @@ export default function AllProducts() {
 
 async function fetchCategories() {
     const { data } = await apiInstance.get("/products");
+    console.log("data is ", data);
     return data as Product[];
 }
 export type Product = {

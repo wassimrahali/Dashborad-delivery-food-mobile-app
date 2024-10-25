@@ -21,21 +21,87 @@ function App() {
                 <div className="w-full">
                     <Routes>
                         {/* Route Login, accessible uniquement pour les utilisateurs non connectés */}
-                        <Route path="/" element={<Login />} />
+                        <Route path="/login" element={<Login />} />
 
                         {/* Routes protégées par PrivateRoute */}
-                        <Route path="/dashbord" element={<PrivateRoute><Home /></PrivateRoute>} />
-                        <Route path="/products/add" element={<PrivateRoute><AddProduct /></PrivateRoute>} />
-                        <Route path="/dashbord/products/" element={<PrivateRoute><AllProducts /></PrivateRoute>} />
-                        <Route path="/products/:id" element={<PrivateRoute><ProductDetails /></PrivateRoute>} />
-                        <Route path="/products/update/:id" element={<PrivateRoute><UpdateProduct /></PrivateRoute>} />
-                        <Route path="/categories/add" element={<PrivateRoute><AddCategory /></PrivateRoute>} />
-                        <Route path="/categories/" element={<PrivateRoute><AllCategories /></PrivateRoute>} />
-                        <Route path="/categories/:id" element={<PrivateRoute><CategoryDetails /></PrivateRoute>} />
-                        <Route path="/categories/update/:id" element={<PrivateRoute><UpdateCategory /></PrivateRoute>} />
-                        
+                        <Route
+                            path="/"
+                            element={
+                                <PrivateRoute>
+                                    <Home />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/products/add"
+                            element={
+                                <PrivateRoute>
+                                    <AddProduct />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/products/"
+                            element={
+                                <PrivateRoute>
+                                    <AllProducts />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/products/:id"
+                            element={
+                                <PrivateRoute>
+                                    <ProductDetails />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/products/update/:id"
+                            element={
+                                <PrivateRoute>
+                                    <UpdateProduct />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/categories/add"
+                            element={
+                                <PrivateRoute>
+                                    <AddCategory />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/categories/"
+                            element={
+                                <PrivateRoute>
+                                    <AllCategories />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/categories/:id"
+                            element={
+                                <PrivateRoute>
+                                    <CategoryDetails />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/categories/update/:id"
+                            element={
+                                <PrivateRoute>
+                                    <UpdateCategory />
+                                </PrivateRoute>
+                            }
+                        />
+
                         {/* Route catch-all pour les routes non trouvées */}
-                        <Route path="*" element={<main>404 Page not found</main>} />
+                        <Route
+                            path="*"
+                            element={<main>404 Page not found</main>}
+                        />
                     </Routes>
                 </div>
             </div>
