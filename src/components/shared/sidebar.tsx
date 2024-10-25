@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { ChevronDown, ChevronsRight } from "lucide-react";
+import { ChevronDown, ChevronsRight, LogOutIcon } from "lucide-react";
 import { SIDEBAR_ITEMS } from "@/constants/sidebar-items";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,8 +17,8 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
         "/drivers",
         "/settings",
     ];
-    const isSidebarVisible = routesWithSidebar.some((item) =>
-        pathname.startsWith(item)
+    const isSidebarVisible = routesWithSidebar.some(
+        (item) => pathname.toLowerCase() === item.toLowerCase()
     );
     if (!isSidebarVisible) {
         return null;
@@ -48,7 +48,7 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
                     />
                 ))}
             </div>
-
+            <Logout open={open} />
             <ToggleClose open={open} setOpen={setOpen} />
         </motion.nav>
     );
@@ -176,7 +176,7 @@ const ToggleClose = ({
         <motion.button
             layout
             onClick={() => setOpen((pv) => !pv)}
-            className="absolute bottom-0 left-0 right-0 border-t border-zinc-300/80 transition-colors hover:bg-zinc-100">
+            className="absolute bottom-0 left-0 right-0 border-t border-zinc-300/80 transition-colors hover:bg-mainColor/10">
             <div className="flex items-center p-2">
                 <motion.div
                     layout
@@ -204,3 +204,35 @@ const ToggleClose = ({
         </motion.button>
     );
 };
+const Logout = memo(({ open }: { open: boolean }) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+
+    return (
+        <motion.button
+            layout
+            onClick={handleClick}
+            className={` flex h-14 w-full mt-auto absolute left-0 bottom-14 border-t pl-3 hover:bg-mainColor/10 items-center rounded-md transition-colors `}>
+            <motion.div
+                layout
+                className="grid h-full w-10 place-content-center text-lg">
+                <LogOutIcon className="w-6 scale-90 h-6" />
+            </motion.div>
+            {open && (
+                <motion.span
+                    layout
+                    initial={{ opacity: 0, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.125 }}
+                    className={cn("text-sm font-medium")}>
+                    Logout
+                </motion.span>
+            )}
+        </motion.button>
+    );
+});
+
+Logout.displayName = "Logout";
