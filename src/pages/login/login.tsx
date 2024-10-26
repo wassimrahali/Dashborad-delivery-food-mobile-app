@@ -14,7 +14,7 @@ export default function Login() {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            navigate("/");
+            navigate("/dashboard");
         }
     }, []);
 
@@ -24,7 +24,7 @@ export default function Login() {
             try {
                 setIsLoading(true);
                 await login(input.email, input.password);
-                navigate("/");
+                navigate("/dashboard");
             } catch (err) {
                 setError("Login failed. Please check your credentials.");
             } finally {

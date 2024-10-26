@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
 
     // If user is authenticated and tries to access login, redirect to dashboard
     if (token && pathname === "/login") {
-        return <Navigate to="/" />;
+        return <Navigate to="/dashboard" />;
     }
 
     return children;
