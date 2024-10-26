@@ -10,7 +10,7 @@ import {
 export const SIDEBAR_ITEMS = [
     {
         Icon: Home,
-        link: "/",
+        link: "/dashboard",
         title: "Dashboard",
     },
     {

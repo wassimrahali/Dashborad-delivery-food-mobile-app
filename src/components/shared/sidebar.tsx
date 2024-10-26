@@ -11,14 +11,14 @@ export const Sidebar = (props: { selected?: PossibleItems }) => {
     const pathname = useLocation().pathname;
     const routesWithSidebar = [
         "/products",
-        "/",
+        "/dashboard",
         "/categories",
         "/orders",
         "/drivers",
         "/settings",
     ];
-    const isSidebarVisible = routesWithSidebar.some(
-        (item) => pathname.toLowerCase() === item.toLowerCase()
+    const isSidebarVisible = routesWithSidebar.some((item) =>
+        pathname.toLowerCase().startsWith(item.toLowerCase())
     );
     if (!isSidebarVisible) {
         return null;
