@@ -12,6 +12,8 @@ import UpdateProduct from "./pages/proudcts/update/UpdateProduct";
 import UpdateCategory from "./pages/categories/update/update";
 import { AuthProvider } from "./constants/AuthContext";
 import PrivateRoute from "./pages/login/PrivateRoute";
+import AllOrders from "./pages/orders/all/all";
+import OrderDetails from "./pages/orders/details/OrderDetails";
 
 function App() {
     return (
@@ -90,6 +92,39 @@ function App() {
                         />
                         <Route
                             path="/categories/update/:id"
+                            element={
+                                <PrivateRoute>
+                                    <UpdateCategory />
+                                </PrivateRoute>
+                            }
+                        />
+                        {/* order routes */}
+                        <Route
+                            path="/orders/add"
+                            element={
+                                <PrivateRoute>
+                                    <AddCategory />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/orders/"
+                            element={
+                                <PrivateRoute>
+                                    <AllOrders />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/orders/:id"
+                            element={
+                                <PrivateRoute>
+                                    <OrderDetails />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/orders/update/:id"
                             element={
                                 <PrivateRoute>
                                     <UpdateCategory />
