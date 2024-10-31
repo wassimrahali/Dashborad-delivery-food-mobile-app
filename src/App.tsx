@@ -15,6 +15,7 @@ import PrivateRoute from "./pages/login/PrivateRoute";
 import AllOrders from "./pages/orders/all/all";
 import OrderDetails from "./pages/orders/details/OrderDetails";
 import { Toaster } from "react-hot-toast";
+import NotFound from "./components/shared/NotFound";
 
 function App() {
     return (
@@ -134,10 +135,8 @@ function App() {
                         />
 
                         {/* Route catch-all pour les routes non trouvées */}
-                        <Route
-                            path="*"
-                            element={<main>404 Page not found</main>}
-                        />
+                        <Route path="*" element={<NotFound />} />
+
                     </Routes>
                 </div>
             </div>
