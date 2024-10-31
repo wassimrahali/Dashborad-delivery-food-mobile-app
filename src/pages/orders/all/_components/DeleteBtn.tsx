@@ -17,32 +17,38 @@ import { apiInstance } from "@/lib/axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 type Props = {
     id: number;
+    className?: string;
 };
 
-export default function DeleteCategoryBtn({ id }: Props) {
+export default function DeleteBtn({ id, className }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const handleConfirm = async () => {
         setIsLoading(true);
         apiInstance
-            .delete(`/categories/${id}`)
+            .delete(`/orders/${id}`)
             .then(() => {
-                toast.success("Category is deleted");
+                toast.success("Order is deleted");
                 setIsOpen(false);
                 setIsLoading(false);
                 navigate(0);
             })
-            .catch(() => toast.error("Category was not deleted"));
+            .catch(() => toast.error("Order was not deleted"));
     };
 
     return (
         <AlertDialog open={isOpen}>
             <AlertDialogTrigger onClick={() => setIsOpen(true)}>
-                <button className="bg-red-500 ml-2 active:scale-95 transition-all hover:bg-red-600 p-2 text-white rounded-md">
+                <button
+                    className={cn(
+                        "bg-red-500 ml-2 active:scale-95 transition-all hover:bg-red-600 p-2 text-white rounded-md",
+                        className
+                    )}>
                     <Trash2 className="w-5 h-5" />
                 </button>
             </AlertDialogTrigger>
@@ -53,7 +59,7 @@ export default function DeleteCategoryBtn({ id }: Props) {
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently
-                        delete this category.
+                        delete this order.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

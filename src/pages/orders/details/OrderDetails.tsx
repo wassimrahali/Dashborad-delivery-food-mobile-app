@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import StatusComp from "./_components/status";
 
 enum Status {
     NOT_VALIDATED = "NOT_VALIDATED",
@@ -90,19 +91,14 @@ export default function OrderDetails() {
                 <section className="p-10 w-full">
                     <div className="container mx-auto px-4 py-8 bg-white shadow-lg rounded-lg">
                         <div className="flex justify-between items-center mb-6">
-                            <div>
+                            <div className="flex items-center gap-2">
                                 <h1 className="text-2xl font-bold">
                                     Order #{order.id}
                                 </h1>
-                                <span
-                                    className={`mt-2 inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                                        order.status
-                                    )}`}>
-                                    {getStatusIcon(order.status)} {order.status}
-                                </span>
+                                <StatusComp status={order.status as any} />
                             </div>
                             <div className="text-2xl font-bold text-blue-600">
-                                ${order.totalPrice}
+                                {order.totalPrice} DT
                             </div>
                         </div>
                         {/* Status Timeline */}
@@ -112,7 +108,7 @@ export default function OrderDetails() {
                                     (status: any, index) => (
                                         <div
                                             key={status}
-                                            className="flex flex-col  items-center flex-1">
+                                            className="flex flex-col font-semibold items-center flex-1">
                                             <div
                                                 className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
                                                     Object.values(

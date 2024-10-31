@@ -1,5 +1,4 @@
 import TopBar from "@/components/shared/topBar";
-import { Toaster } from "react-hot-toast";
 import Buttons from "./_components/Button";
 import Details from "./_components/Details";
 import GeneralInfo from "./_components/GeneralInfo";
@@ -19,8 +18,6 @@ export default function AddProduct() {
                     <ImageUploader />
                 </section>
             </section>
-
-            <Toaster containerClassName="font-semibold" />
         </main>
     );
 }

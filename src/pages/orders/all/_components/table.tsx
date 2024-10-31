@@ -1,14 +1,13 @@
+import { Button } from "@/components/ui/button";
+import { apiInstance } from "@/lib/axios";
+import { formatDate } from "@/lib/utils";
+import { Check, ChevronDown, ChevronUp, Eye, Package } from "lucide-react";
 import React, { useState } from "react";
-import {
-    Eye,
-    PenBox,
-    ChevronDown,
-    ChevronUp,
-    MapPin,
-    Package,
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import DeleteBtn from "./DeleteBtn";
+import OrderLocation from "./orderLocation";
+import Status from "./status";
 
 type Props = {
     orders: Array<{
@@ -44,13 +43,30 @@ type Props = {
 
 export default function OrdersTable({ orders }: Props) {
     const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
-
+    const navigate = useNavigate();
     const toggleDropdown = (orderId: number) => {
         setOpenDropdowns((prev) =>
             prev.includes(orderId)
                 ? prev.filter((id) => id !== orderId)
                 : [...prev, orderId]
         );
+    };
+    const validateOrder = (orderId: number) => {
+        toast.loading("loading...");
+
+        apiInstance
+            .patch(`/orders/update-status/${orderId}`, {
+                status: "VALIDATED",
+            })
+            .then(() => {
+                toast.dismiss();
+                toast.success("Updated successfully");
+                navigate(0);
+            })
+            .catch(() => {
+                toast.dismiss();
+                toast.error("There is an error");
+            });
     };
 
     return (
@@ -59,9 +75,6 @@ export default function OrdersTable({ orders }: Props) {
                 <table className="w-full mt-5 rounded-2xl overflow-hidden">
                     <thead className="bg-slate-100">
                         <tr>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
-                                Order ID
-                            </th>
                             <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
                                 Customer
                             </th>
@@ -92,9 +105,6 @@ export default function OrdersTable({ orders }: Props) {
                         {orders.map((order) => (
                             <React.Fragment key={order.id}>
                                 <tr className="text-center">
-                                    <td className="px-6 py-4 text-sm font-semibold text-gray-700">
-                                        #{order.id}
-                                    </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex flex-col">
                                             <span className="text-sm font-semibold text-gray-700">
@@ -106,37 +116,15 @@ export default function OrdersTable({ orders }: Props) {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-700">
-                                        ${order.totalPrice}
+                                        {order.totalPrice} DT
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex items-center justify-center gap-1">
-                                            <MapPin className="w-4 h-4 text-gray-500" />
-                                            <span className="text-sm text-gray-700">
-                                                {order.location}
-                                            </span>
-                                        </div>
+                                        <OrderLocation
+                                            location={order.location}
+                                        />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            className={`px-3 py-1 rounded-full text-xs font-medium
-                                            ${
-                                                order.status === "PENDING"
-                                                    ? "bg-yellow-100 text-yellow-800"
-                                                    : ""
-                                            }
-                                            ${
-                                                order.status === "DELIVERED"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : ""
-                                            }
-                                            ${
-                                                order.status === "CANCELLED"
-                                                    ? "bg-red-100 text-red-800"
-                                                    : ""
-                                            }
-                                        `}>
-                                            {order.status}
-                                        </span>
+                                        <Status status={order.status as any} />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         {order.deliveryMan ? (
@@ -154,10 +142,11 @@ export default function OrdersTable({ orders }: Props) {
                                             </span>
                                         )}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                        {new Date(
-                                            order.createdAt
-                                        ).toLocaleDateString()}
+                                    <td className="px-6 font-medium py-4 whitespace-nowrap text-sm text-gray-700">
+                                        {
+                                            formatDate(order.createdAt)
+                                                .fullDateTime
+                                        }
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button
@@ -179,18 +168,26 @@ export default function OrdersTable({ orders }: Props) {
                                         </button>
                                     </td>
                                     <td>
-                                        <div className="flex items-center justify-center gap-2">
+                                        <div className="flex items-center justify-center gap-2 scale-95 pr-2">
+                                            {order.status ===
+                                                "NOT_VALIDATED" && (
+                                                <Button
+                                                    onClick={() => {
+                                                        validateOrder(order.id);
+                                                    }}
+                                                    className="bg-green-500 active:scale-95 transition-all hover:bg-green-600 p-2 text-white rounded-md">
+                                                    <Check className="w-5 h-5 stroke-[3]" />
+                                                </Button>
+                                            )}
                                             <Link
                                                 to={`/orders/${order.id}`}
                                                 className="bg-blue-500 active:scale-95 transition-all hover:bg-blue-600 p-2 text-white rounded-md">
                                                 <Eye className="w-5 h-5" />
                                             </Link>
-                                            <DeleteBtn id={order.id} />
-                                            <Link
-                                                to={`/orders/update/${order.id}`}
-                                                className="bg-stone-700 active:scale-95 transition-all hover:bg-stone-800 p-2 text-white rounded-md">
-                                                <PenBox className="w-5 h-5" />
-                                            </Link>
+                                            <DeleteBtn
+                                                className="ml-0"
+                                                id={order.id}
+                                            />
                                         </div>
                                     </td>
                                 </tr>

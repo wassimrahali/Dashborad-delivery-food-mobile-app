@@ -1,15 +1,15 @@
+import LoadingPage from "@/components/shared/LoadingPage";
 import SaveAndCancelBtns from "@/components/shared/saveAndCancelBtns";
 import TopBar from "@/components/shared/topBar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { apiInstance } from "@/lib/axios";
 import { imageUpload } from "@/lib/image-upload";
-import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import ImageUploader from "./_components/ImageUploader";
-import { useParams } from "react-router-dom";
-import LoadingPage from "@/components/shared/LoadingPage";
 import { wait } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import ImageUploader from "./_components/ImageUploader";
 
 export default function UpdateCategory() {
     const [isLoading, setIsLoading] = useState(true);
@@ -95,9 +95,6 @@ export default function UpdateCategory() {
                     </div>
                 </form>
             </section>
-            <span className="font-semibold">
-                <Toaster position="top-center" reverseOrder={false} />{" "}
-            </span>
         </main>
     );
 }

@@ -1,12 +1,10 @@
 import LoadingPage from "@/components/shared/LoadingPage";
 import TopBar from "@/components/shared/topBar";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { apiInstance } from "@/lib/axios";
-import { PlusSquare, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import Table from "./_components/table";
 
 export default function AllOrders() {
@@ -41,7 +39,6 @@ export default function AllOrders() {
                 </div>
                 <Table orders={orders} />
             </section>
-            <Toaster />
         </main>
     );
 }
