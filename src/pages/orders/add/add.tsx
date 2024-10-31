@@ -75,9 +75,6 @@ export default function AddCategory() {
                     </div>
                 </form>
             </section>
-            <span className="font-semibold">
-                <Toaster position="top-center" reverseOrder={false} />{" "}
-            </span>
         </main>
     );
 }

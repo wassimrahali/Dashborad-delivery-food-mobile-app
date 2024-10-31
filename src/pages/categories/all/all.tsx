@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { apiInstance } from "@/lib/axios";
 import { PlusSquare, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Table from "./_components/table";
 
@@ -47,7 +47,6 @@ export default function AllCategories() {
                 </div>
                 <Table categories={categories} />
             </section>
-            <Toaster />
         </main>
     );
 }

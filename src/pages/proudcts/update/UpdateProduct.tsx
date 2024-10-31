@@ -26,8 +26,6 @@ export default function UpdateProduct() {
                     <ImageUploader />
                 </section>
             </section>
-
-            <Toaster containerClassName="font-semibold" />
         </main>
     );
 }

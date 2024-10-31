@@ -14,6 +14,7 @@ import { AuthProvider } from "./constants/AuthContext";
 import PrivateRoute from "./pages/login/PrivateRoute";
 import AllOrders from "./pages/orders/all/all";
 import OrderDetails from "./pages/orders/details/OrderDetails";
+import { Toaster } from "react-hot-toast";
 
 function App() {
     return (
@@ -140,6 +141,11 @@ function App() {
                     </Routes>
                 </div>
             </div>
+            <Toaster
+                containerClassName="font-semibold"
+                position="top-center"
+                reverseOrder={false}
+            />{" "}
         </AuthProvider>
     );
 }
