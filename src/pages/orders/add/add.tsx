@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { apiInstance } from "@/lib/axios";
 import { imageUpload } from "@/lib/image-upload";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import ImageUploader from "./_components/ImageUploader";
 
 export default function AddCategory() {

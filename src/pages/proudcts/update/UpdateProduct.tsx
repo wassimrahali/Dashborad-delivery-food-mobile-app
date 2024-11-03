@@ -1,7 +1,6 @@
 import LoadingPage from "@/components/shared/LoadingPage";
 import TopBar from "@/components/shared/topBar";
 import { useState } from "react";
-import { Toaster } from "react-hot-toast";
 import Buttons from "./_components/Button";
 import Details from "./_components/Details";
 import GeneralInfo from "./_components/GeneralInfo";
