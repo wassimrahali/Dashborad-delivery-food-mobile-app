@@ -36,7 +36,7 @@ export default function ImageUploader(props: { className?: string }) {
                     toast.success("Image uploaded successfully.");
                     setMainImageUrl(data);
                 })
-                .catch((err) => {
+                .catch(() => {
                     toast.dismiss();
                     toast.error("Error while uploading your image...");
                     if (mainPreview) URL.revokeObjectURL(mainPreview);
