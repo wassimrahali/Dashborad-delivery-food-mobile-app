@@ -44,6 +44,7 @@ type Props = {
 export default function OrdersTable({ orders }: Props) {
     const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
     const navigate = useNavigate();
+
     const toggleDropdown = (orderId: number) => {
         setOpenDropdowns((prev) =>
             prev.includes(orderId)
@@ -51,6 +52,7 @@ export default function OrdersTable({ orders }: Props) {
                 : [...prev, orderId]
         );
     };
+
     const validateOrder = (orderId: number) => {
         toast.loading("loading...");
 
@@ -73,30 +75,30 @@ export default function OrdersTable({ orders }: Props) {
         <div className="w-full px-10 bg-white shadow-md pb-10 rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
                 <table className="w-full mt-5 rounded-2xl overflow-hidden">
-                    <thead className="bg-slate-100">
+                    <thead className="bg-mainColor/20">
                         <tr>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Customer
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Total Price
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Location
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Status
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Delivery Person
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Created At
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Items
                             </th>
-                            <th className="px-6 py-5 text-center font-bold text-sm tracking-wider">
+                            <th className="px-6 py-3 text-center font-bold text-sm tracking-wider">
                                 Actions
                             </th>
                         </tr>
@@ -161,9 +163,9 @@ export default function OrdersTable({ orders }: Props) {
                                             {openDropdowns.includes(
                                                 order.id
                                             ) ? (
-                                                <ChevronUp className="w-4 h-4" />
+                                                <ChevronUp className="w-4 h-4 transition-transform duration-200" />
                                             ) : (
-                                                <ChevronDown className="w-4 h-4" />
+                                                <ChevronDown className="w-4 h-4 transition-transform duration-200" />
                                             )}
                                         </button>
                                     </td>
@@ -191,10 +193,15 @@ export default function OrdersTable({ orders }: Props) {
                                         </div>
                                     </td>
                                 </tr>
-                                {openDropdowns.includes(order.id) && (
-                                    <tr>
-                                        <td colSpan={9} className="bg-gray-50">
-                                            <div className="p-4">
+                                <tr className="transition-all ">
+                                    <td colSpan={9} className="p-0">
+                                        <div
+                                            className={`transform transition-all  origin-top ${
+                                                openDropdowns.includes(order.id)
+                                                    ? "scale-y-100 opacity-100"
+                                                    : "scale-y-0 opacity-0 h-0"
+                                            }`}>
+                                            <div className="bg-gray-50 p-4">
                                                 <h4 className="text-sm font-semibold mb-4">
                                                     Order Items
                                                 </h4>
@@ -203,7 +210,7 @@ export default function OrdersTable({ orders }: Props) {
                                                         (item) => (
                                                             <div
                                                                 key={item.id}
-                                                                className="bg-white p-4 rounded-lg shadow-sm">
+                                                                className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                                                                 <div className="flex gap-4">
                                                                     <img
                                                                         src={
@@ -271,9 +278,9 @@ export default function OrdersTable({ orders }: Props) {
                                                     )}
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                )}
+                                        </div>
+                                    </td>
+                                </tr>
                             </React.Fragment>
                         ))}
                     </tbody>

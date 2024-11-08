@@ -3,6 +3,7 @@ import TopBar from "@/components/shared/topBar";
 import { apiInstance } from "@/lib/axios";
 import {
     Calendar,
+    Check,
     DollarSign,
     MapPin,
     Package,
@@ -11,23 +12,18 @@ import {
     User,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StatusComp from "./_components/status";
-
-enum Status {
-    NOT_VALIDATED = "NOT_VALIDATED",
-    VALIDATED = "VALIDATED",
-    READY = "READY",
-    ON_ROAD = "ON_ROAD",
-    DELIVERED = "DELIVERED",
-    RETURNED = "RETURNED",
-}
+import { Button } from "@/components/ui/button";
+import DeleteBtn from "./_components/DeleteBtn";
+import toast from "react-hot-toast";
 
 export default function OrderDetails() {
     const params = useParams();
     const id = params.id;
     const [order, setOrder] = useState<Order>();
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         apiInstance
@@ -46,42 +42,22 @@ export default function OrderDetails() {
         return <div>Order not found</div>;
     }
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case Status.NOT_VALIDATED:
-                return "bg-gray-100 text-gray-800";
-            case Status.VALIDATED:
-                return "bg-blue-100 text-blue-800";
-            case Status.READY:
-                return "bg-yellow-100 text-yellow-800";
-            case Status.ON_ROAD:
-                return "bg-purple-100 text-purple-800";
-            case Status.DELIVERED:
-                return "bg-green-100 text-green-800";
-            case Status.RETURNED:
-                return "bg-red-100 text-red-800";
-            default:
-                return "bg-gray-100 text-gray-800";
-        }
-    };
+    const validateOrder = () => {
+        toast.loading("loading...");
 
-    const getStatusIcon = (status: string) => {
-        switch (status) {
-            case Status.NOT_VALIDATED:
-                return "⏳";
-            case Status.VALIDATED:
-                return "✓";
-            case Status.READY:
-                return "📦";
-            case Status.ON_ROAD:
-                return "🚚";
-            case Status.DELIVERED:
-                return "✅";
-            case Status.RETURNED:
-                return "↩️";
-            default:
-                return "•";
-        }
+        apiInstance
+            .patch(`/orders/update-status/${id}`, {
+                status: "VALIDATED",
+            })
+            .then(() => {
+                toast.dismiss();
+                toast.success("Updated successfully");
+                navigate(0);
+            })
+            .catch(() => {
+                toast.dismiss();
+                toast.error("There is an error");
+            });
     };
 
     return (
@@ -92,56 +68,20 @@ export default function OrderDetails() {
                     <div className="container mx-auto px-4 py-8 bg-white shadow-lg rounded-lg">
                         <div className="flex justify-between items-center mb-6">
                             <div className="flex items-center gap-2">
-                                <h1 className="text-2xl font-bold">
-                                    Order #{order.id}
-                                </h1>
+                                <div className="text-2xl  font-bold  gap-4">
+                                    <p> Order #{order.id}</p>
+                                </div>
                                 <StatusComp status={order.status as any} />
                             </div>
-                            <div className="text-2xl font-bold text-blue-600">
-                                {order.totalPrice} DT
-                            </div>
-                        </div>
-                        {/* Status Timeline */}
-                        <div className="mb-8">
-                            <div className="grid grid-cols-6   w-full">
-                                {Object.values(Status).map(
-                                    (status: any, index) => (
-                                        <div
-                                            key={status}
-                                            className="flex flex-col font-semibold items-center flex-1">
-                                            <div
-                                                className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
-                                                    Object.values(
-                                                        Status
-                                                    ).indexOf(
-                                                        order.status as any
-                                                    ) >= index
-                                                        ? getStatusColor(status)
-                                                        : "bg-gray-100 text-gray-400"
-                                                }`}>
-                                                {getStatusIcon(status)}
-                                            </div>
-                                            <div className="text-xs text-center">
-                                                {status.replace(/_/g, " ")}
-                                            </div>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                            <div className="relative mt-2">
-                                <div className="absolute h-1 bg-gray-200 w-full top-0"></div>
-                                <div
-                                    className="absolute h-1 bg-blue-500 top-0 transition-all duration-500"
-                                    style={{
-                                        width: `${
-                                            (Object.values(Status).indexOf(
-                                                order.status as any
-                                            ) /
-                                                (Object.values(Status).length -
-                                                    1)) *
-                                            100
-                                        }%`,
-                                    }}></div>
+                            <div className="ml-auto ">
+                                <div className="flex mr-4">
+                                    <Button
+                                        onClick={validateOrder}
+                                        className="bg-green-600/80 py-1 px-[6px] flex items-center gap-1 font-semibold">
+                                        <Check />
+                                    </Button>
+                                    {id && <DeleteBtn id={Number(id)} />}
+                                </div>
                             </div>
                         </div>
 
@@ -205,6 +145,13 @@ export default function OrderDetails() {
                                 </h2>
                                 <InfoCard
                                     icon={
+                                        <DollarSign className="text-purple-500" />
+                                    }
+                                    title="Total Amount"
+                                    value={`${order.totalPrice} DNT`}
+                                />
+                                <InfoCard
+                                    icon={
                                         <Calendar className="text-purple-500" />
                                     }
                                     title="Order Date"
@@ -218,13 +165,6 @@ export default function OrderDetails() {
                                     }
                                     title="Total Items"
                                     value={order.orderItems.length.toString()}
-                                />
-                                <InfoCard
-                                    icon={
-                                        <DollarSign className="text-purple-500" />
-                                    }
-                                    title="Total Amount"
-                                    value={`$${order.totalPrice}`}
                                 />
                             </div>
                         </div>
@@ -335,9 +275,9 @@ const InfoCard = ({
     <div className="bg-gray-50 hover: shadow-[0p_0px_5px] shadow-neutral-300 border border-gray-200 p-4 rounded-lg">
         <div className="flex items-center mb-2">
             {icon}
-            <h3 className="ml-2 font-medium text-gray-700">{title}</h3>
+            <h3 className="ml-2 font-semibold text-gray-700">{title}</h3>
         </div>
-        <p className="text-gray-900">{value}</p>
+        <p className="text-gray-900 font-medium">{value}</p>
     </div>
 );
 export type Order = {
