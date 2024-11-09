@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const apiInstance = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "foodie-back.up.railway.app/api",
 });
