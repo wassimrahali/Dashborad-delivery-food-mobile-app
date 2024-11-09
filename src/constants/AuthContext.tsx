@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const login = async (email: string, password: string) => {
         try {
             const response = await axios.post(
-                "http://localhost:8000/api/auth/loginAdmin",
+                "https://foodie-back.up.railway.app/api/auth/loginAdmin",
                 {
                     email,
                     password,
