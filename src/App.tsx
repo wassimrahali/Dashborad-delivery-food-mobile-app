@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import { Sidebar } from "./components/shared/sidebar";
-import Home from "./pages/home/home";
 import Login from "./pages/login/login";
 import AddProduct from "./pages/proudcts/add/add";
 import AllProducts from "./pages/proudcts/all/all";
@@ -16,6 +15,7 @@ import AllOrders from "./pages/orders/all/all";
 import OrderDetails from "./pages/orders/details/OrderDetails";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./components/shared/NotFound";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
     return (
@@ -31,14 +31,7 @@ function App() {
                         <Route path="*" element={<NotFound />} />
 
                         {/* Routes protégées par PrivateRoute */}
-                        <Route
-                            path="/dashboard"
-                            element={
-                                <PrivateRoute>
-                                    <Home />
-                                </PrivateRoute>
-                            }
-                        />
+
                         <Route
                             path="/products/add"
                             element={
@@ -136,9 +129,14 @@ function App() {
                                 </PrivateRoute>
                             }
                         />
-
-                        {/* Route catch-all pour les routes non trouvées */}
-
+                        <Route
+                            path="/dashboard"
+                            element={
+                                <PrivateRoute>
+                                    <Dashboard />
+                                </PrivateRoute>
+                            }
+                        />
                     </Routes>
                 </div>
             </div>

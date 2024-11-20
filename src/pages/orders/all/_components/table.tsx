@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { apiInstance } from "@/lib/axios";
-import { formatDate } from "@/lib/utils";
-import { Check, ChevronDown, ChevronUp, Eye, Package } from "lucide-react";
+import { cn, formatDate } from "@/lib/utils";
+import { Check, ChevronDown, ChevronUp, Eye, Package, X } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import DeleteBtn from "./DeleteBtn";
 import OrderLocation from "./orderLocation";
 import Status from "./status";
 
@@ -59,6 +58,24 @@ export default function OrdersTable({ orders }: Props) {
         apiInstance
             .patch(`/orders/update-status/${orderId}`, {
                 status: "VALIDATED",
+            })
+            .then(() => {
+                toast.dismiss();
+                toast.success("Updated successfully");
+                navigate(0);
+            })
+            .catch(() => {
+                toast.dismiss();
+                toast.error("There is an error");
+            });
+    };
+
+    const refuseOrder = (orderId: number) => {
+        toast.loading("loading...");
+
+        apiInstance
+            .patch(`/orders/update-status/${orderId}`, {
+                status: "NOT_VALIDATED",
             })
             .then(() => {
                 toast.dismiss();
@@ -186,10 +203,15 @@ export default function OrdersTable({ orders }: Props) {
                                                 className="bg-blue-500 active:scale-95 transition-all hover:bg-blue-600 p-2 text-white rounded-md">
                                                 <Eye className="w-5 h-5" />
                                             </Link>
-                                            <DeleteBtn
-                                                className="ml-0"
-                                                id={order.id}
-                                            />
+                                            <button
+                                                onClick={() => {
+                                                    refuseOrder(order.id);
+                                                }}
+                                                className={cn(
+                                                    "bg-red-500  active:scale-95 transition-all hover:bg-red-600 p-2 text-white rounded-md"
+                                                )}>
+                                                <X className="w-5 h-5" />
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
