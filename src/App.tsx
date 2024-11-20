@@ -26,6 +26,9 @@ function App() {
                     <Routes>
                         {/* Route Login, accessible uniquement pour les utilisateurs non connectés */}
                         <Route path="/login" element={<Login />} />
+                        {/* add this line by Wass to correct the Notfound routes ....*/}
+                        <Route path="/" element={<Login />} />
+                        <Route path="*" element={<NotFound />} />
 
                         {/* Routes protégées par PrivateRoute */}
 
@@ -134,8 +137,6 @@ function App() {
                                 </PrivateRoute>
                             }
                         />
-                        {/* Route catch-all pour les routes non trouvées */}
-                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
             </div>

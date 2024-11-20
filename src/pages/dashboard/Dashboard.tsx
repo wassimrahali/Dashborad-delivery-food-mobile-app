@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";
 import { Clock, DollarSign, PackageCheck, Users } from "lucide-react";
@@ -149,7 +148,7 @@ export default function Dashboard() {
                                     outerRadius="90%"
                                     fill="#8884d8"
                                     dataKey="value">
-                                    {orderStatusData.map((entry, index) => (
+                                    {orderStatusData.map((_, index) => (
                                         <Cell
                                             key={`cell-${index}`}
                                             fill={
