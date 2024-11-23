@@ -73,6 +73,9 @@ export default function StatusComp({ status }: Props) {
     };
 
     const config = statusConfig[status];
+    if (!config) {
+        return null;
+    }
     const Icon = config.icon;
 
     return (

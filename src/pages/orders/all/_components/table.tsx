@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { apiInstance } from "@/lib/axios";
-import { cn, formatDate } from "@/lib/utils";
-import { Check, ChevronDown, ChevronUp, Eye, Package, X } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+import { Check, ChevronDown, ChevronUp, Eye, Package } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import OrderLocation from "./orderLocation";
 import Status from "./status";
+import DeleteBtn from "./DeleteBtn";
 
 type Props = {
     orders: Array<{
@@ -70,23 +71,23 @@ export default function OrdersTable({ orders }: Props) {
             });
     };
 
-    const refuseOrder = (orderId: number) => {
-        toast.loading("loading...");
+    // const refuseOrder = (orderId: number) => {
+    //     toast.loading("loading...");
 
-        apiInstance
-            .patch(`/orders/update-status/${orderId}`, {
-                status: "NOT_VALIDATED",
-            })
-            .then(() => {
-                toast.dismiss();
-                toast.success("Updated successfully");
-                navigate(0);
-            })
-            .catch(() => {
-                toast.dismiss();
-                toast.error("There is an error");
-            });
-    };
+    //     apiInstance
+    //         .patch(`/orders/update-status/${orderId}`, {
+    //             status: "NOT_VALIDATED",
+    //         })
+    //         .then(() => {
+    //             toast.dismiss();
+    //             toast.success("Updated successfully");
+    //             navigate(0);
+    //         })
+    //         .catch(() => {
+    //             toast.dismiss();
+    //             toast.error("There is an error");
+    //         });
+    // };
 
     return (
         <div className="w-full px-10 bg-white shadow-md pb-10 rounded-lg overflow-hidden">
@@ -207,7 +208,8 @@ export default function OrdersTable({ orders }: Props) {
                                                 className="bg-blue-500 active:scale-95 transition-all hover:bg-blue-600 p-2 text-white rounded-md">
                                                 <Eye className="w-5 h-5" />
                                             </Link>
-                                            <button
+                                            <DeleteBtn id={order.id} />
+                                            {/* <button
                                                 onClick={() => {
                                                     refuseOrder(order.id);
                                                 }}
@@ -215,7 +217,7 @@ export default function OrdersTable({ orders }: Props) {
                                                     "bg-red-500  active:scale-95 transition-all hover:bg-red-600 p-2 text-white rounded-md"
                                                 )}>
                                                 <X className="w-5 h-5" />
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </td>
                                 </tr>

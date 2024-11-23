@@ -11,12 +11,13 @@ import {
     Truck,
     User,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import StatusComp from "./_components/status";
 import { Button } from "@/components/ui/button";
 import DeleteBtn from "./_components/DeleteBtn";
 import toast from "react-hot-toast";
+import OrderLocation from "./_components/orderLocation";
 
 export default function OrderDetails() {
     const params = useParams();
@@ -104,8 +105,12 @@ export default function OrderDetails() {
                                 <InfoCard
                                     icon={<MapPin className="text-blue-500" />}
                                     title="Delivery Location"
-                                    value={order.location}
-                                />
+                                    value={""}>
+                                    <OrderLocation
+                                        location={order.location}
+                                        className="w-full shadow-none h-10 mt-2 text-sm bg-inherit"
+                                    />
+                                </InfoCard>
                             </div>
 
                             {/* Delivery Man Information */}
@@ -267,16 +272,19 @@ const InfoCard = ({
     icon,
     title,
     value,
+    children,
 }: {
     icon: React.ReactNode;
     title: string;
     value: string;
+    children?: ReactNode;
 }) => (
     <div className="bg-gray-50 hover: shadow-[0p_0px_5px] shadow-neutral-300 border border-gray-200 p-4 rounded-lg">
         <div className="flex items-center mb-2">
             {icon}
             <h3 className="ml-2 font-semibold text-gray-700">{title}</h3>
         </div>
+        {children}
         <p className="text-gray-900 font-medium">{value}</p>
     </div>
 );
