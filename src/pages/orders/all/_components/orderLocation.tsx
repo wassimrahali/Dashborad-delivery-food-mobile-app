@@ -6,14 +6,16 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { MapPin } from "lucide-react";
 import { useState } from "react";
 
 type Props = {
     location: string;
+    className?: string;
 };
 
-export default function OrderLocation({ location }: Props) {
+export default function OrderLocation({ location, className }: Props) {
     const [isOpen, setIsOpen] = useState(false);
 
     const isCoordinates = (loc: string): boolean => {
@@ -50,7 +52,10 @@ export default function OrderLocation({ location }: Props) {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="mx-auto text-black hover:text-black hover:bg-black/10">
+                            className={cn(
+                                "mx-auto text-black hover:text-black hover:bg-black/10",
+                                className
+                            )}>
                             <MapPin className="w-4 h-4 mr-1" />
                             View Map
                         </Button>
