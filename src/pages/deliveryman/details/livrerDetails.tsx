@@ -1,11 +1,32 @@
 import LoadingPage from "@/components/shared/LoadingPage";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TopBar from "@/components/shared/topBar";
+import { ChartContainer } from "@/components/ui/chart";
 import { DollarSign, Clock, PackageCheck,  Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { apiInstance } from "@/lib/axios";
+import {
+    Bar,
+    BarChart,
+    Cell,
+    Legend,
+    Pie,
+    PieChart,
+    Tooltip,
+    XAxis,
+    YAxis,
+    Area,
+    AreaChart,
+    CartesianGrid,
+} from "recharts";
+const orderStatusData = [
+    { name: "Completed", value: 75 },
+    { name: "Not Completed", value: 25 },
+];
+
+const orderColors = ["#6EE7B7", "#EF4444"];
 
 export default function LivrerDetails() {
     const { id } = useParams<{ id: string }>();
@@ -53,12 +74,12 @@ export default function LivrerDetails() {
     }
 
     return (
-        <main className="flex">
+        <main className="flex p-6 space-y-6">
             <div className="w-full">
-                <TopBar text="Delivery Man Details" />
+                <TopBar  text="Delivery Man Details " />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <Card>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-6 ">
+                    <Card >
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle>Total Revenue</CardTitle>
                             <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -96,32 +117,68 @@ export default function LivrerDetails() {
                     </Card>
                 </div>
 
-                <div className="p-10">
-                    <div className="container p-10 mx-auto w-full bg-white border rounded-lg">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {/* Delivery Man Details */}
-                            <div className="md:col-span-2">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <InfoCard
-                                        icon={<Calendar />}
-                                        title="Name"
-                                        value={deliveryMan?.name}
-                                    />
-                                    <InfoCard
-                                        icon={<Calendar />}
-                                        title="Joined At"
-                                        value={new Date(deliveryMan?.createdAt!).toLocaleDateString()}
-                                    />
-                                </div>
+                <div className="flex w-full gap-6">
+    {/* Delivery Man Information */}
+    <div className="w-2/3">
+        <div className="container p-6 bg-white border rounded-lg">
+            <div className="grid grid-cols-3 gap-4">
+                <InfoCard
+                    icon={<Calendar />}
+                    title="Name"
+                    value={deliveryMan?.name}
+                />
+                <InfoCard
+                    icon={<Calendar />}
+                    title="Joined At"
+                    value={new Date(deliveryMan?.createdAt!).toLocaleDateString()}
+                />
+                <InfoCard
+                    icon={<Calendar />}
+                    title="Phone number"
+                    value={deliveryMan?.phone}
+                />
+            </div>
+        </div>
+    </div>
 
-                                <div className="mt-4">
-                                    <h3 className="font-semibold mb-2">Phone Number:</h3>
-                                    <p className="text-gray-600">{deliveryMan?.phone}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    {/* Order Status Chart */}
+    <div className="w-1/3">
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle>Order Status</CardTitle>
+                <PackageCheck className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={{}}>
+                    <PieChart width={200} height={200}>
+                        <Pie
+                            data={orderStatusData}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            outerRadius="70%" // Reduced radius for smaller chart
+                            fill="#8884d8"
+                            dataKey="value"
+                        >
+                            {orderStatusData.map((_, index) => (
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={
+                                        orderColors[index % orderColors.length]
+                                    }
+                                />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                    </PieChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    </div>
+</div>
+
+
             </div>
         </main>
     );
