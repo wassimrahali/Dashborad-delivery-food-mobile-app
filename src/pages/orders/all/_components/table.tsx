@@ -143,7 +143,11 @@ export default function OrdersTable({ orders }: Props) {
                                         />
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <Status status={order.status as any} />
+                                        {order.status && (
+                                            <Status
+                                                status={order?.status as any}
+                                            />
+                                        )}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         {order.deliveryMan ? (

@@ -48,6 +48,13 @@ export default function Status({ status }: Props) {
             borderColor: "border-yellow-200",
             label: "On Road",
         },
+        PENDING: {
+            icon: Clock,
+            color: "text-yellow-500",
+            bgColor: "bg-yellow-50",
+            borderColor: "border-yellow-200",
+            label: "Pending",
+        },
         DELIVERED: {
             icon: PackageCheck,
             color: "text-emerald-500",
@@ -63,20 +70,24 @@ export default function Status({ status }: Props) {
             label: "Returned",
         },
     };
-
+    console.log("statu is =>", status);
     const config = statusConfig[status];
-    const Icon = config.icon;
+    console.log(config);
+    if (!config) {
+        return null;
+    }
+    const Icon = config?.icon;
 
     return (
         <div
             className={cn(
                 "inline-flex items-center px-3 py-1 rounded-full border gap-2",
-                config.bgColor,
-                config.borderColor
+                config?.bgColor,
+                config?.borderColor
             )}>
             <Icon className={cn("w-4 h-4", config.color)} />
-            <span className={cn("text-sm font-semibold py-1", config.color)}>
-                {config.label}
+            <span className={cn("text-sm font-semibold py-1", config?.color)}>
+                {config?.label}
             </span>
         </div>
     );
