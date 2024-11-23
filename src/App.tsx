@@ -16,6 +16,9 @@ import OrderDetails from "./pages/orders/details/OrderDetails";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./components/shared/NotFound";
 import Dashboard from "./pages/dashboard/Dashboard";
+import AllDeliveryMan from "./pages/deliveryman/all/all";
+import AddDeliveryMan from "./pages/deliveryman/add/add";
+import LivrerDetails from "./pages/deliveryman/details/livrerDetails";
 
 function App() {
     return (
@@ -95,6 +98,22 @@ function App() {
                                     <UpdateCategory />
                                 </PrivateRoute>
                             }
+                        />{/* deliveryman routes */}
+                         <Route
+                            path="/drivers/"
+                            element={
+                                <PrivateRoute>
+                                    <AllDeliveryMan />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/drivers/add"
+                            element={
+                                <PrivateRoute>
+                                    <AddDeliveryMan />
+                                </PrivateRoute>
+                            }
                         />
                         {/* order routes */}
                         <Route
@@ -102,6 +121,14 @@ function App() {
                             element={
                                 <PrivateRoute>
                                     <AddCategory />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/drivers/:id"
+                            element={
+                                <PrivateRoute>
+                                    <LivrerDetails />
                                 </PrivateRoute>
                             }
                         />
