@@ -15,7 +15,8 @@ type Props = {
         | "READY"
         | "ON_ROAD"
         | "DELIVERED"
-        | "RETURNED";
+        | "RETURNED"
+        | "PENDING";
 };
 
 export default function StatusComp({ status }: Props) {
@@ -47,6 +48,13 @@ export default function StatusComp({ status }: Props) {
             bgColor: "bg-yellow-50",
             borderColor: "border-yellow-200",
             label: "On Road",
+        },
+        PENDING: {
+            icon: Clock,
+            color: "text-yellow-500",
+            bgColor: "bg-yellow-50",
+            borderColor: "border-yellow-200",
+            label: "Pending",
         },
         DELIVERED: {
             icon: PackageCheck,
